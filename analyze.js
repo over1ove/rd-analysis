@@ -69,7 +69,6 @@ function analyze(data) {
     baseStrength: 16.99
   };
 
-  // Category aggregation
   const categories = {};
   results.forEach(r => {
     if (!categories[r.类别]) categories[r.类别] = { elong: [], strength: [], count: 0 };
@@ -78,7 +77,6 @@ function analyze(data) {
     categories[r.类别].count++;
   });
 
-  // Build customer info from project summary
   const project = projectSummary[0] || {};
   function excelDateToStr(d) {
     if (typeof d === 'number' && d > 30000) {
@@ -97,12 +95,47 @@ function analyze(data) {
     "备注": project["备注"] || ""
   };
 
-  return { results, pending, stats, categories, customer: customerInfo };
+  // Equipment data (hardcoded, common to all projects)
+  const equipment = [
+    {
+      model: "TY-7008",
+      name: "双螺杆挤出造粒机",
+      manufacturer: "江苏天源试验设备有限公司",
+      specs: { screwDiameter: 20, meltPressure: 0.74, torque: 20.02, temperature: "机头:190|3区:185|2区:180|1区:175" },
+      usage: "造粒"
+    },
+    {
+      model: "TY-7003H",
+      name: "立式注塑机",
+      manufacturer: "江苏天源试验设备有限公司",
+      specs: { screwDiameter: 20, meltPressure: 3.8, torque: "-", temperature: "模具:40|3区:150|2区:200|1区:190" },
+      usage: "注塑"
+    },
+    {
+      model: "TY-8000DT",
+      name: "微机控制电子万能试验机",
+      manufacturer: "江苏天源试验设备有限公司",
+      specs: { screwDiameter: "-", meltPressure: "-", torque: "-", temperature: "-" },
+      usage: "拉力测试"
+    }
+  ];
+
+  const companyInfo = {
+    website: "http://www.tytester.com",
+    phone: "0514-86291226",
+    logo: "http://www.tytester.com/data/upload/image/20251219/1766134655531958.png",
+    productCategories: {
+      "TY-7008": "/jichuchengxingxilie/",
+      "TY-7003H": "/zhusumoyachengxingxilie/",
+      "TY-8000DT": "/xiangsujiancexilie/"
+    }
+  };
+
+  return { results, pending, stats, categories, customer: customerInfo, equipment, companyInfo };
 }
 
 function printReport(analysis) {
   const { results, pending, stats, categories, customer } = analysis;
-
   console.log("=".repeat(60));
   console.log("  缠绕膜配方研发 — 数据分析报告");
   console.log("=".repeat(60));
@@ -113,31 +146,15 @@ function printReport(analysis) {
   console.log("技术指标:", customer["技术指标"]);
   console.log("交付期限:", customer["交付期限"]);
   console.log("");
-
   console.log("--- 统计摘要 ---");
   console.log("断裂伸长率: 均值" + stats.avgElong.toFixed(2) + "%  最高" + stats.maxElong.toFixed(2) + "%  最低" + stats.minElong.toFixed(2) + "%");
   console.log("拉伸强度:   均值" + stats.avgStrength.toFixed(2) + "MPa  最高" + stats.maxStrength.toFixed(2) + "MPa  最低" + stats.minStrength.toFixed(2) + "MPa");
   console.log("目标伸长率: " + stats.targetElong + "%  差距: " + (stats.targetElong - stats.maxElong).toFixed(2) + "%");
-  console.log("目标强度: " + (stats.baseStrength * 1.1).toFixed(2) + "-" + (stats.baseStrength * 1.25).toFixed(2) + "MPa  " + (stats.maxStrength >= stats.baseStrength * 1.25 ? "✓ 已达标" : "✗ 未达标"));
   console.log("");
 
   console.log("--- 伸长率排名 TOP5 ---");
   [...results].sort((a, b) => b.断裂伸长率 - a.断裂伸长率).slice(0, 5).forEach((r, i) => {
-    console.log("  " + (i + 1) + ". " + r.配方名称 + ": " + r.断裂伸长率.toFixed(2) + "% (强度: " + r.拉伸强度.toFixed(2) + "MPa)");
-  });
-  console.log("");
-
-  console.log("--- 类别分析 ---");
-  Object.entries(categories).forEach(([cat, vals]) => {
-    const avgE = (vals.elong.reduce((a, b) => a + b, 0) / vals.elong.length).toFixed(2);
-    const avgS = (vals.strength.reduce((a, b) => a + b, 0) / vals.strength.length).toFixed(2);
-    console.log("  " + cat + " (" + vals.count + "个): 伸长率=" + avgE + "%  强度=" + avgS + "MPa");
-  });
-  console.log("");
-
-  console.log("--- 待执行实验 (" + pending.length + "个) ---");
-  pending.forEach(p => {
-    console.log("  " + p["配方编号"] + ": " + p["配方名称"] + " | " + p["配料方案"]);
+    console.log("  " + (i + 1) + ". " + r.配方名称 + ": " + r.断裂伸长率.toFixed(2) + "%");
   });
 
   return analysis;
