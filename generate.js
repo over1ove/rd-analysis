@@ -202,7 +202,8 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
     <button class="nav-link active" onclick="switchPage(0)">概览</button>
     <button class="nav-link" onclick="switchPage(1)">实验设备</button>
     <button class="nav-link" onclick="switchPage(2)">相关项目</button>
-    <button class="nav-link" onclick="switchPage(3)">AI预测</button>
+    <button class="nav-link" onclick="switchPage(3)">材料</button>
+    <button class="nav-link" onclick="switchPage(4)">AI预测</button>
   </div>
 </nav>
 
@@ -216,7 +217,7 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
   <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
     <div class="stat-card cyan"><div class="val">${S.completed}</div><div class="lbl">已完成实验组</div></div>
     <div class="stat-card amber" onclick="switchPage(2)" style="cursor:pointer"><div class="val">${S.projectCount||1}</div><div class="lbl">已收录项目 ↗</div></div>
-    <div class="stat-card green" onclick="showMaterials()" style="cursor:pointer"><div class="val">${AD.length+BR.length}</div><div class="lbl">已收录材料 ↗</div></div>
+    <div class="stat-card green" onclick="switchPage(3)" style="cursor:pointer"><div class="val">${AD.length+BR.length}</div><div class="lbl">已收录材料 ↗</div></div>
   </div>
 
   <div class="features">
@@ -226,25 +227,7 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
   </div>
 
 
-  <!-- Materials Section (hidden by default) -->
-  <div class="section" id="materialsSection" style="display:none">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
-      <h2 style="margin-bottom:0"><span class="dot"></span>已收录材料</h2>
-      <button onclick="hideMaterials()" style="background:var(--card);border:1px solid var(--border);color:var(--text2);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px">✕ 关闭</button>
-    </div>
-    <div class="card" style="margin-bottom:20px">
-      <h3 style="font-size:15px;margin-bottom:12px;color:var(--cyan)">🧪 助剂 (${AD.length}种)</h3>
-      <div class="tbl-wrap"><table><thead><tr><th>商品名/牌号</th><th>供应商</th><th>类型</th><th>平均伸长率(%)</th><th>平均强度(MPa)</th><th>推荐添加量</th></tr></thead><tbody>
-      ${AD.map(a=>`<tr><td><b>${esc(a.商品名)}</b></td><td>${esc(a.供应商)}</td><td>${esc(a.类型)}</td><td>${a.平均伸长率||'-'}</td><td>${a.平均强度||'-'}</td><td>${esc(a.推荐添加量||a.测试添加量||'')}</td></tr>`).join('')}
-      </tbody></table></div>
-    </div>
-    <div class="card">
-      <h3 style="font-size:15px;margin-bottom:12px;color:var(--blue)">🔬 聚合物基料 (${BR.length}种)</h3>
-      <div class="tbl-wrap"><table><thead><tr><th>商品名/牌号</th><th>供应商</th><th>类型</th><th>MI(g/10min)</th><th>密度(g/cm³)</th><th>拉伸强度(MPa)</th><th>断裂伸长率(%)</th></tr></thead><tbody>
-      ${BR.map(b=>`<tr><td><b>${esc(b.商品名)}</b></td><td>${esc(b.供应商)}</td><td>${esc(b.类型)}</td><td>${b.MI||'-'}</td><td>${b.密度||'-'}</td><td>${b.拉伸强度||'-'}</td><td>${b.伸长率||'-'}</td></tr>`).join('')}
-      </tbody></table></div>
-    </div>
-  </div>
+
 
   <div class="section">
     <h2><span class="dot"></span>项目总览</h2>'
@@ -357,8 +340,28 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
   </div>
 </div>
 
-<!-- Page 3: AI Prediction -->
+
+<!-- Page 3: Materials -->
 <div class="page" id="page3">
+  <div class="section">
+    <h2><span class="dot"></span>已收录材料</h2>
+    <p style="color:var(--text2);font-size:14px;margin-bottom:20px">收录所有项目中涉及的助剂与聚合物基料信息，共 <strong style="color:var(--cyan)">${AD.length+BR.length}</strong> 种材料</p>
+  </div>
+  <div class="card" style="margin-bottom:20px">
+    <h3 style="font-size:15px;margin-bottom:12px;color:var(--cyan)">🧪 助剂 (${AD.length}种)</h3>
+    <div class="tbl-wrap"><table><thead><tr><th>商品名/牌号</th><th>供应商</th><th>类型</th><th>平均伸长率(%)</th><th>平均强度(MPa)</th><th>推荐添加量</th></tr></thead><tbody>
+    ${AD.map(a=>'<tr><td><b>'+esc(a.商品名)+'</b></td><td>'+esc(a.供应商)+'</td><td>'+esc(a.类型)+'</td><td>'+(a.平均伸长率||'-')+'</td><td>'+(a.平均强度||'-')+'</td><td>'+esc(a.推荐添加量||a.测试添加量||'')+'</td></tr>').join('')}
+    </tbody></table></div>
+  </div>
+  <div class="card">
+    <h3 style="font-size:15px;margin-bottom:12px;color:var(--blue)">🔬 聚合物基料 (${BR.length}种)</h3>
+    <div class="tbl-wrap"><table><thead><tr><th>商品名/牌号</th><th>供应商</th><th>类型</th><th>MI(g/10min)</th><th>密度(g/cm³)</th><th>拉伸强度(MPa)</th><th>断裂伸长率(%)</th></tr></thead><tbody>
+    ${BR.map(b=>'<tr><td><b>'+esc(b.商品名)+'</b></td><td>'+esc(b.供应商)+'</td><td>'+esc(b.类型)+'</td><td>'+(b.MI||'-')+'</td><td>'+(b.密度||'-')+'</td><td>'+(b.拉伸强度||'-')+'</td><td>'+(b.伸长率||'-')+'</td></tr>').join('')}
+    </tbody></table></div>
+  </div>
+</div>
+<!-- Page 4: AI Prediction -->
+<div class="page" id="page4">
   <div class="ai-layout">
     <div class="ai-chat">
       <div class="ai-msgs" id="aiMsgs">
@@ -416,8 +419,6 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
   draw();
 })();
 
-function showMaterials(){document.getElementById("materialsSection").style.display="";document.getElementById("materialsSection").scrollIntoView({behavior:"smooth"})}
-function hideMaterials(){document.getElementById("materialsSection").style.display="none"}
 // Page switching
 var currentPage=0;
 function switchPage(n){

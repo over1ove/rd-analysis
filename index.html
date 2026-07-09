@@ -188,7 +188,8 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
     <button class="nav-link active" onclick="switchPage(0)">概览</button>
     <button class="nav-link" onclick="switchPage(1)">实验设备</button>
     <button class="nav-link" onclick="switchPage(2)">相关项目</button>
-    <button class="nav-link" onclick="switchPage(3)">AI预测</button>
+    <button class="nav-link" onclick="switchPage(3)">材料</button>
+    <button class="nav-link" onclick="switchPage(4)">AI预测</button>
   </div>
 </nav>
 
@@ -202,7 +203,7 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
   <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
     <div class="stat-card cyan"><div class="val">16</div><div class="lbl">已完成实验组</div></div>
     <div class="stat-card amber" onclick="switchPage(2)" style="cursor:pointer"><div class="val">1</div><div class="lbl">已收录项目 ↗</div></div>
-    <div class="stat-card green" onclick="showMaterials()" style="cursor:pointer"><div class="val">16</div><div class="lbl">已收录材料 ↗</div></div>
+    <div class="stat-card green" onclick="switchPage(3)" style="cursor:pointer"><div class="val">16</div><div class="lbl">已收录材料 ↗</div></div>
   </div>
 
   <div class="features">
@@ -212,25 +213,7 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
   </div>
 
 
-  <!-- Materials Section (hidden by default) -->
-  <div class="section" id="materialsSection" style="display:none">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
-      <h2 style="margin-bottom:0"><span class="dot"></span>已收录材料</h2>
-      <button onclick="hideMaterials()" style="background:var(--card);border:1px solid var(--border);color:var(--text2);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px">✕ 关闭</button>
-    </div>
-    <div class="card" style="margin-bottom:20px">
-      <h3 style="font-size:15px;margin-bottom:12px;color:var(--cyan)">🧪 助剂 (15种)</h3>
-      <div class="tbl-wrap"><table><thead><tr><th>商品名/牌号</th><th>供应商</th><th>类型</th><th>平均伸长率(%)</th><th>平均强度(MPa)</th><th>推荐添加量</th></tr></thead><tbody>
-      <tr><td><b>NA8020</b></td><td>香港希化</td><td>β晶型成核剂</td><td>472.37</td><td>18.33</td><td>0.1-0.3%</td></tr><tr><td><b>CYD-HP104</b></td><td>威海晨源分子科技</td><td>β晶型成核剂</td><td>487.57</td><td>17.04</td><td>0.03-0.15%</td></tr><tr><td><b>N04G0</b></td><td>宁波恒泽化工</td><td>成核剂</td><td>486.77</td><td>18.4</td><td>0.15-0.3%</td></tr><tr><td><b>DBchem</b></td><td>东铂新材料</td><td>成核剂</td><td>474.07</td><td>20.76</td><td>0.2-0.5%</td></tr><tr><td><b>八碳POE</b></td><td>苏州立阔新材料</td><td>POE增韧剂</td><td>471.97</td><td>16.85</td><td>—</td></tr><tr><td><b>陶氏6202</b></td><td>陶氏(DOW)</td><td>POE增韧剂</td><td>472.7</td><td>20.53</td><td>—</td></tr><tr><td><b>陶氏8003</b></td><td>陶氏(DOW)</td><td>POE增韧剂</td><td>458.43</td><td>20.68</td><td>—</td></tr><tr><td><b>陶氏8150</b></td><td>陶氏(DOW)</td><td>POE增韧剂</td><td>449.77</td><td>21.43</td><td>—</td></tr><tr><td><b>陶氏8200</b></td><td>陶氏(DOW)</td><td>POE增韧剂</td><td>456.77</td><td>19.47</td><td>—</td></tr><tr><td><b>陶氏8480</b></td><td>陶氏(DOW)</td><td>POE增韧剂</td><td>448.7</td><td>20.25</td><td>—</td></tr><tr><td><b>KA-202</b></td><td>广东卡尔文塑胶</td><td>增容剂</td><td>498.03</td><td>18.4</td><td>—</td></tr><tr><td><b>LLDPE 7042</b></td><td>山东裕龙石化</td><td>LLDPE</td><td>—</td><td>—</td><td>—</td></tr><tr><td><b>HDPE 2426</b></td><td>扬子石化</td><td>HDPE</td><td>—</td><td>—</td><td>—</td></tr><tr><td><b>SP1520</b></td><td>三井‑普瑞曼</td><td>mLLDPE</td><td>—</td><td>—</td><td>—</td></tr><tr><td><b>超支化弹性体</b></td><td>乐景新材料</td><td>POE增韧剂</td><td>—</td><td>—</td><td>—</td></tr>
-      </tbody></table></div>
-    </div>
-    <div class="card">
-      <h3 style="font-size:15px;margin-bottom:12px;color:var(--blue)">🔬 聚合物基料 (1种)</h3>
-      <div class="tbl-wrap"><table><thead><tr><th>商品名/牌号</th><th>供应商</th><th>类型</th><th>MI(g/10min)</th><th>密度(g/cm³)</th><th>拉伸强度(MPa)</th><th>断裂伸长率(%)</th></tr></thead><tbody>
-      <tr><td><b>Exceed m4518.PA</b></td><td>埃克森美孚</td><td>mPE</td><td>4.5</td><td>0.918</td><td>16.99</td><td>483</td></tr>
-      </tbody></table></div>
-    </div>
-  </div>
+
 
   <div class="section">
     <h2><span class="dot"></span>项目总览</h2>'
@@ -369,8 +352,28 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
   </div>
 </div>
 
-<!-- Page 3: AI Prediction -->
+
+<!-- Page 3: Materials -->
 <div class="page" id="page3">
+  <div class="section">
+    <h2><span class="dot"></span>已收录材料</h2>
+    <p style="color:var(--text2);font-size:14px;margin-bottom:20px">收录所有项目中涉及的助剂与聚合物基料信息，共 <strong style="color:var(--cyan)">16</strong> 种材料</p>
+  </div>
+  <div class="card" style="margin-bottom:20px">
+    <h3 style="font-size:15px;margin-bottom:12px;color:var(--cyan)">🧪 助剂 (15种)</h3>
+    <div class="tbl-wrap"><table><thead><tr><th>商品名/牌号</th><th>供应商</th><th>类型</th><th>平均伸长率(%)</th><th>平均强度(MPa)</th><th>推荐添加量</th></tr></thead><tbody>
+    <tr><td><b>NA8020</b></td><td>香港希化</td><td>β晶型成核剂</td><td>472.37</td><td>18.33</td><td>0.1-0.3%</td></tr><tr><td><b>CYD-HP104</b></td><td>威海晨源分子科技</td><td>β晶型成核剂</td><td>487.57</td><td>17.04</td><td>0.03-0.15%</td></tr><tr><td><b>N04G0</b></td><td>宁波恒泽化工</td><td>成核剂</td><td>486.77</td><td>18.4</td><td>0.15-0.3%</td></tr><tr><td><b>DBchem</b></td><td>东铂新材料</td><td>成核剂</td><td>474.07</td><td>20.76</td><td>0.2-0.5%</td></tr><tr><td><b>八碳POE</b></td><td>苏州立阔新材料</td><td>POE增韧剂</td><td>471.97</td><td>16.85</td><td>—</td></tr><tr><td><b>陶氏6202</b></td><td>陶氏(DOW)</td><td>POE增韧剂</td><td>472.7</td><td>20.53</td><td>—</td></tr><tr><td><b>陶氏8003</b></td><td>陶氏(DOW)</td><td>POE增韧剂</td><td>458.43</td><td>20.68</td><td>—</td></tr><tr><td><b>陶氏8150</b></td><td>陶氏(DOW)</td><td>POE增韧剂</td><td>449.77</td><td>21.43</td><td>—</td></tr><tr><td><b>陶氏8200</b></td><td>陶氏(DOW)</td><td>POE增韧剂</td><td>456.77</td><td>19.47</td><td>—</td></tr><tr><td><b>陶氏8480</b></td><td>陶氏(DOW)</td><td>POE增韧剂</td><td>448.7</td><td>20.25</td><td>—</td></tr><tr><td><b>KA-202</b></td><td>广东卡尔文塑胶</td><td>增容剂</td><td>498.03</td><td>18.4</td><td>—</td></tr><tr><td><b>LLDPE 7042</b></td><td>山东裕龙石化</td><td>LLDPE</td><td>—</td><td>—</td><td>—</td></tr><tr><td><b>HDPE 2426</b></td><td>扬子石化</td><td>HDPE</td><td>—</td><td>—</td><td>—</td></tr><tr><td><b>SP1520</b></td><td>三井‑普瑞曼</td><td>mLLDPE</td><td>—</td><td>—</td><td>—</td></tr><tr><td><b>超支化弹性体</b></td><td>乐景新材料</td><td>POE增韧剂</td><td>—</td><td>—</td><td>—</td></tr>
+    </tbody></table></div>
+  </div>
+  <div class="card">
+    <h3 style="font-size:15px;margin-bottom:12px;color:var(--blue)">🔬 聚合物基料 (1种)</h3>
+    <div class="tbl-wrap"><table><thead><tr><th>商品名/牌号</th><th>供应商</th><th>类型</th><th>MI(g/10min)</th><th>密度(g/cm³)</th><th>拉伸强度(MPa)</th><th>断裂伸长率(%)</th></tr></thead><tbody>
+    <tr><td><b>Exceed m4518.PA</b></td><td>埃克森美孚</td><td>mPE</td><td>4.5</td><td>0.918</td><td>16.99</td><td>483</td></tr>
+    </tbody></table></div>
+  </div>
+</div>
+<!-- Page 4: AI Prediction -->
+<div class="page" id="page4">
   <div class="ai-layout">
     <div class="ai-chat">
       <div class="ai-msgs" id="aiMsgs">
@@ -428,8 +431,6 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
   draw();
 })();
 
-function showMaterials(){document.getElementById("materialsSection").style.display="";document.getElementById("materialsSection").scrollIntoView({behavior:"smooth"})}
-function hideMaterials(){document.getElementById("materialsSection").style.display="none"}
 // Page switching
 var currentPage=0;
 function switchPage(n){
