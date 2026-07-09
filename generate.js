@@ -325,8 +325,8 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
     <!-- Results Table -->
     <div class="card" style="margin-bottom:20px">
       <h3 style="font-size:15px;margin-bottom:12px">📋 已完成实验详情</h3>
-      <div class="tbl-wrap"><table><thead><tr><th>#</th><th>编号</th><th>配方名称</th><th>伸长率(%)</th><th>强度(MPa)</th><th>类别</th></tr></thead><tbody>
-      ${SE.map((r,i)=>`<tr><td>${i+1}</td><td>${esc(r.配方编号)}</td><td><b>${esc(r.配方名称)}</b></td><td class="val-mid">${r.断裂伸长率}</td><td>${r.拉伸强度}</td><td><span class="tag tag-purple">${esc(r.类别)}</span></td></tr>`).join('')}
+      <div class="tbl-wrap"><table><thead><tr><th>#</th><th>编号</th><th>配方名称</th><th>配料方案</th><th>伸长率(%)</th><th>强度(MPa)</th><th>类别</th></tr></thead><tbody>
+      ${SE.map((r,i)=>`<tr><td>${i+1}</td><td>${esc(r.配方编号)}</td><td><b>${esc(r.配方名称)}</b></td><td style="font-size:12px;color:var(--text3)">${esc(r.配料方案)}</td><td class="val-mid">${r.断裂伸长率}</td><td>${r.拉伸强度}</td><td><span class="tag tag-purple">${esc(r.类别)}</span></td></tr>`).join('')}
       </tbody></table></div>
     </div>
 
@@ -349,14 +349,14 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
   </div>
   <div class="card" style="margin-bottom:20px">
     <h3 style="font-size:15px;margin-bottom:12px;color:var(--cyan)">🧪 助剂 (${AD.length}种)</h3>
-    <div class="tbl-wrap"><table><thead><tr><th>商品名/牌号</th><th>供应商</th><th>类型</th><th>平均伸长率(%)</th><th>平均强度(MPa)</th><th>推荐添加量</th></tr></thead><tbody>
-    ${AD.map(a=>'<tr><td><b>'+esc(a.商品名)+'</b></td><td>'+esc(a.供应商)+'</td><td>'+esc(a.类型)+'</td><td>'+(a.平均伸长率||'-')+'</td><td>'+(a.平均强度||'-')+'</td><td>'+esc(a.推荐添加量||a.测试添加量||'')+'</td></tr>').join('')}
+    <div class="tbl-wrap"><table><thead><tr><th>商品名/牌号</th><th>供应商</th><th>类型</th><th>推荐添加量</th><th>使用项目</th></tr></thead><tbody>
+    ${AD.map(a=>'<tr><td><b>'+esc(a.商品名)+'</b></td><td>'+esc(a.供应商)+'</td><td>'+esc(a.类型)+'</td><td>'+esc(a.推荐添加量||a.测试添加量||'')+'</td><td>黄山源点缠绕膜</td></tr>').join('')}
     </tbody></table></div>
   </div>
   <div class="card">
     <h3 style="font-size:15px;margin-bottom:12px;color:var(--blue)">🔬 聚合物基料 (${BR.length}种)</h3>
-    <div class="tbl-wrap"><table><thead><tr><th>商品名/牌号</th><th>供应商</th><th>类型</th><th>MI(g/10min)</th><th>密度(g/cm³)</th><th>拉伸强度(MPa)</th><th>断裂伸长率(%)</th></tr></thead><tbody>
-    ${BR.map(b=>'<tr><td><b>'+esc(b.商品名)+'</b></td><td>'+esc(b.供应商)+'</td><td>'+esc(b.类型)+'</td><td>'+(b.MI||'-')+'</td><td>'+(b.密度||'-')+'</td><td>'+(b.拉伸强度||'-')+'</td><td>'+(b.伸长率||'-')+'</td></tr>').join('')}
+    <div class="tbl-wrap"><table><thead><tr><th>商品名/牌号</th><th>供应商</th><th>类型</th><th>MI(g/10min)</th><th>密度(g/cm³)</th><th>拉伸强度(MPa)</th><th>断裂伸长率(%)</th><th>使用项目</th></tr></thead><tbody>
+    ${BR.map(b=>'<tr><td><b>'+esc(b.商品名)+'</b></td><td>'+esc(b.供应商)+'</td><td>'+esc(b.类型)+'</td><td>'+(b.MI||'-')+'</td><td>'+(b.密度||'-')+'</td><td>'+(b.拉伸强度||'-')+'</td><td>'+(b.伸长率||'-')+'</td><td>黄山源点缠绕膜</td></tr>').join('')}
     </tbody></table></div>
   </div>
 </div>
