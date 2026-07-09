@@ -213,11 +213,10 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
     <p class="sub">本平台基于多个工艺配方项目中的实验数据进行系统归纳，以此构建该配方研发实验数据库。所有实验项目统一采用<strong>${esc(CI.name)}</strong>的TY系列设备，覆盖共混造粒、注塑成型、力学检测全流程。</p>
   </div>
 
-  <div class="stats-grid">
+  <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
     <div class="stat-card cyan"><div class="val">${S.completed}</div><div class="lbl">已完成实验组</div></div>
-    <div class="stat-card amber"><div class="val">${S.projectCount||1}</div><div class="lbl">已收录项目</div></div>
-    <div class="stat-card green"><div class="val">${AD.length}</div><div class="lbl">已收录助剂</div></div>
-    <div class="stat-card blue"><div class="val">${BR.length}</div><div class="lbl">已收录聚合物</div></div>
+    <div class="stat-card amber" onclick="switchPage(2)" style="cursor:pointer"><div class="val">${S.projectCount||1}</div><div class="lbl">已收录项目 ↗</div></div>
+    <div class="stat-card green" onclick="showMaterials()" style="cursor:pointer"><div class="val">${AD.length+BR.length}</div><div class="lbl">已收录材料 ↗</div></div>
   </div>
 
   <div class="features">
@@ -226,8 +225,29 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
     <div class="ft-card"><div class="ft-icon">🤖</div><h3>DeepSeek AI 助手</h3><p>结合实验数据与材料科学知识，以工艺配方工程师视角智能回答配方问题</p></div>
   </div>
 
+
+  <!-- Materials Section (hidden by default) -->
+  <div class="section" id="materialsSection" style="display:none">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+      <h2 style="margin-bottom:0"><span class="dot"></span>已收录材料</h2>
+      <button onclick="hideMaterials()" style="background:var(--card);border:1px solid var(--border);color:var(--text2);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px">✕ 关闭</button>
+    </div>
+    <div class="card" style="margin-bottom:20px">
+      <h3 style="font-size:15px;margin-bottom:12px;color:var(--cyan)">🧪 助剂 (${AD.length}种)</h3>
+      <div class="tbl-wrap"><table><thead><tr><th>商品名/牌号</th><th>供应商</th><th>类型</th><th>平均伸长率(%)</th><th>平均强度(MPa)</th><th>推荐添加量</th></tr></thead><tbody>
+      ${AD.map(a=>`<tr><td><b>${esc(a.商品名)}</b></td><td>${esc(a.供应商)}</td><td>${esc(a.类型)}</td><td>${a.平均伸长率||'-'}</td><td>${a.平均强度||'-'}</td><td>${esc(a.推荐添加量||a.测试添加量||'')}</td></tr>`).join('')}
+      </tbody></table></div>
+    </div>
+    <div class="card">
+      <h3 style="font-size:15px;margin-bottom:12px;color:var(--blue)">🔬 聚合物基料 (${BR.length}种)</h3>
+      <div class="tbl-wrap"><table><thead><tr><th>商品名/牌号</th><th>供应商</th><th>类型</th><th>MI(g/10min)</th><th>密度(g/cm³)</th><th>拉伸强度(MPa)</th><th>断裂伸长率(%)</th></tr></thead><tbody>
+      ${BR.map(b=>`<tr><td><b>${esc(b.商品名)}</b></td><td>${esc(b.供应商)}</td><td>${esc(b.类型)}</td><td>${b.MI||'-'}</td><td>${b.密度||'-'}</td><td>${b.拉伸强度||'-'}</td><td>${b.伸长率||'-'}</td></tr>`).join('')}
+      </tbody></table></div>
+    </div>
+  </div>
+
   <div class="section">
-    <h2><span class="dot"></span>项目总览</h2>
+    <h2><span class="dot"></span>项目总览</h2>'
     <div class="stats-grid" style="grid-template-columns:1fr 1fr">
       <div class="stat-card cyan"><div class="val">${S.inProgressCount||0}</div><div class="lbl">正在进行中的项目</div></div>
       <div class="stat-card green"><div class="val">${S.completedProjectCount||0}</div><div class="lbl">已完成历史项目</div></div>
@@ -396,6 +416,8 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
   draw();
 })();
 
+function showMaterials(){document.getElementById("materialsSection").style.display="";document.getElementById("materialsSection").scrollIntoView({behavior:"smooth"})}
+function hideMaterials(){document.getElementById("materialsSection").style.display="none"}
 // Page switching
 var currentPage=0;
 function switchPage(n){
