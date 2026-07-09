@@ -1,0 +1,6 @@
+﻿node_modules/
+*.json
+!package.json
+gen_report.js
+server.js
+tmp/
