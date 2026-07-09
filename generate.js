@@ -1,4 +1,4 @@
-﻿// generate.js v2.0 - High-tech styled report generator
+// generate.js v2.0 - High-tech styled report generator
 const fs = require("fs");
 
 const d = JSON.parse(fs.readFileSync("analysis_data.json", "utf8"));
@@ -372,7 +372,7 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
 </div>
 
 <div class="footer">
-  <p>配方研发分析平台 · 数据来源：${esc(PI.客户名称)}研发数据库 · 设备支持：${esc(CI.name)} · AI：DeepSeek</p>
+  <p>配方研发分析平台 · 数据来源：江苏天源试验设备有限公司数据库 · 设备支持：${esc(CI.name)} · AI：DeepSeek</p>
 </div>
 
 <script>
