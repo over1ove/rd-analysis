@@ -210,14 +210,14 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
 <div class="page active" id="page0">
   <div class="hero">
     <h1>配方研发分析</h1>
-    <p class="sub">本平台基于多个工艺配方项目中<strong>${S.completed}组</strong>实验数据的系统归纳，构建了流延缠绕膜配方研发实验数据库。所有实验项目统一采用<strong>${esc(CI.name)}</strong>的TY系列设备，覆盖共混造粒、注塑成型、力学检测全流程。目前平台收录<strong>1个在研项目</strong>、<strong>${AD.length}种助剂</strong>、<strong>${BR.length}种基料</strong>。</p>
+    <p class="sub">本平台基于多个工艺配方项目中的实验数据进行系统归纳，以此构建该配方研发实验数据库。所有实验项目统一采用<strong>${esc(CI.name)}</strong>的TY系列设备，覆盖共混造粒、注塑成型、力学检测全流程。</p>
   </div>
 
   <div class="stats-grid">
     <div class="stat-card cyan"><div class="val">${S.completed}</div><div class="lbl">已完成实验组</div></div>
-    <div class="stat-card amber"><div class="val">${S.maxElong}%</div><div class="lbl">最高断裂伸长率</div></div>
-    <div class="stat-card green"><div class="val">${S.maxStrength}</div><div class="lbl">最高拉伸强度 MPa</div></div>
-    <div class="stat-card blue"><div class="val">${E.length}</div><div class="lbl">天源TY系列设备</div></div>
+    <div class="stat-card amber"><div class="val">${S.projectCount||1}</div><div class="lbl">已收录项目</div></div>
+    <div class="stat-card green"><div class="val">${AD.length}</div><div class="lbl">已收录助剂</div></div>
+    <div class="stat-card blue"><div class="val">${BR.length}</div><div class="lbl">已收录聚合物</div></div>
   </div>
 
   <div class="features">
@@ -227,14 +227,10 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
   </div>
 
   <div class="section">
-    <h2><span class="dot"></span>核心目标追踪</h2>
-    <div class="goal-bar">
-      <div class="gb-top"><span class="gb-title">🎯 断裂伸长率 ≥ 550%</span><span class="gb-val">当前最高 ${S.maxElong}% · 进度 ${(S.maxElong/550*100).toFixed(1)}%</span></div>
-      <div class="gb-track"><div class="gb-fill" style="width:${(S.maxElong/550*100).toFixed(1)}%;background:linear-gradient(90deg,var(--amber),var(--cyan))"></div></div>
-    </div>
-    <div class="goal-bar">
-      <div class="gb-top"><span class="gb-title">💪 拉伸强度 18.69~21.24 MPa</span><span class="gb-val" style="color:var(--green)">当前最高 ${S.maxStrength} MPa ✓ 已达标</span></div>
-      <div class="gb-track"><div class="gb-fill" style="width:100%;background:linear-gradient(90deg,var(--green),var(--cyan))"></div></div>
+    <h2><span class="dot"></span>项目总览</h2>
+    <div class="stats-grid" style="grid-template-columns:1fr 1fr">
+      <div class="stat-card cyan"><div class="val">${S.inProgressCount||0}</div><div class="lbl">正在进行中的项目</div></div>
+      <div class="stat-card green"><div class="val">${S.completedProjectCount||0}</div><div class="lbl">已完成历史项目</div></div>
     </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-﻿// analyze.js - 数据分析模块 v2.0
+// analyze.js - 数据分析模块 v2.0
 const XLSX = require("xlsx");
 const fs = require("fs");
 
@@ -129,9 +129,18 @@ function analyze(data) {
     logo: "http://www.tytester.com/data/upload/image/20251219/1766134655531958.png"
   };
 
+  // Project counts
+  const projectCount = projectSummary.filter(p => p["项目名称"]).length;
+  const inProgressCount = projectSummary.filter(p => {
+    if (!p["交付日期"]) return false;
+    const d = typeof p["交付日期"]==="number" ? new Date((p["交付日期"]-25569)*86400*1000) : new Date(p["交付日期"]);
+    return d > new Date();
+  }).length;
+  const completedProjectCount = projectCount - inProgressCount;
+
   return {
     projectInfo,
-    stats,
+    stats: { ...stats, projectCount, inProgressCount, completedProjectCount },
     results,
     pending: pendingList,
     categories: catList,
