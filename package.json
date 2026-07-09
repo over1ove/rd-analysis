@@ -1,0 +1,23 @@
+﻿{
+    "name":  "excel",
+    "version":  "1.0.0",
+    "main":  "index.js",
+    "keywords":  [
+
+                 ],
+    "author":  "",
+    "license":  "ISC",
+    "type":  "commonjs",
+    "dependencies":  {
+                         "xlsx":  "^0.18.5"
+                     },
+    "scripts":  {
+                    "start":  "node main.js",
+                    "all":  "node main.js all",
+                    "share":  "node server.js",
+                    "report":  "node main.js report",
+                    "analyze":  "node main.js analyze",
+                    "predict":  "node main.js predict"
+                },
+    "description":  "缠绕膜配方研发数据分析与预测系统"
+}
