@@ -209,7 +209,7 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
 <!-- Page 0: Overview -->
 <div class="page active" id="page0">
   <div class="hero">
-    <h1>${esc(PI.项目名称||"配方研发分析平台")}</h1>
+    <h1>配方研发分析</h1>
     <p class="sub">本平台基于多个工艺配方项目中<strong>${S.completed}组</strong>实验数据的系统归纳，构建了流延缠绕膜配方研发实验数据库。所有实验项目统一采用<strong>${esc(CI.name)}</strong>的TY系列设备，覆盖共混造粒、注塑成型、力学检测全流程。目前平台收录<strong>1个在研项目</strong>、<strong>${AD.length}种助剂</strong>、<strong>${BR.length}种基料</strong>。</p>
   </div>
 
