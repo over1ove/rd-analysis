@@ -135,6 +135,16 @@ tr:hover td{background:#eff6ff;color:var(--text)}
 .submit-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.35)}
 .submit-btn:disabled{opacity:.5}
 @media(max-width:768px){.stats-grid{grid-template-columns:1fr 1fr}.features{grid-template-columns:1fr}.eq-grid{grid-template-columns:1fr}.chart-row{grid-template-columns:1fr}.ai-layout{grid-template-columns:1fr}.hero h1{font-size:28px}.proj-grid{grid-template-columns:1fr}.g2{grid-template-columns:1fr}}
+.bg-canvas{display:block!important}
+.hero{position:relative}.hero::after{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+.card:hover{box-shadow:0 8px 32px rgba(37,99,235,.1)}
+.ai-float{position:fixed;bottom:28px;right:28px;z-index:200;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#3b82f6);box-shadow:0 4px 24px rgba(37,99,235,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:28px;transition:all .3s;animation:pulse 2s infinite}
+.ai-float:hover{transform:scale(1.1);box-shadow:0 8px 36px rgba(37,99,235,.55)}
+@keyframes pulse{0%,100%{box-shadow:0 4px 24px rgba(37,99,235,.4)}50%{box-shadow:0 4px 40px rgba(37,99,235,.7),0 0 60px rgba(59,130,246,.3)}}
+.ai-float .ai-tip{position:absolute;right:72px;background:#1e293b;color:#fff;font-size:12px;padding:6px 14px;border-radius:20px;white-space:nowrap;opacity:0;transform:translateX(8px);transition:all .3s;pointer-events:none}
+.ai-float:hover .ai-tip{opacity:1;transform:translateX(0)}
+.scan-line{position:fixed;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(37,99,235,.15),transparent);z-index:150;pointer-events:none;animation:scanDown 4s linear infinite}
+@keyframes scanDown{0%{top:-2px}100%{top:100vh}}
 </style></style>
 </head>
 <body>
@@ -337,7 +347,12 @@ tr:hover td{background:#eff6ff;color:var(--text)}
 </div>
 
 
-<!-- Page 5: Data Submission -->\n<div class="page" id="page5">\n  <div style="max-width:800px;margin:0 auto">\n    <div class="section">\n      <h2><span class="dot"></span>数据提交</h2>\n      <p style="color:var(--text2);font-size:14px;margin-bottom:16px">提交项目实验数据，管理员审核通过后AI将自动分析并纳入数据库。</p>\n      <p style="color:var(--amber);font-size:12px;margin-bottom:24px" id="submitNote">需要本地服务器 (localhost:3000)，在线版无法提交。</p>\n    </div>\n    <div class="card" style="margin-bottom:16px">\n      <h3 style="font-size:15px;margin-bottom:16px;color:var(--cyan)">基本信息</h3>\n      <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">项目名称 *</label><input class="sf" id="fProject" placeholder="如：黄山源点缠绕膜"></div>\n      <div style="margin-top:12px"><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">提交人</label><input class="sf" id="fSubmitter" placeholder="您的姓名"></div>\n      <div style="margin-top:12px"><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">备注说明</label><textarea class="sf" id="fNote" rows="2" style="resize:vertical" placeholder="简要描述提交的数据内容"></textarea></div>\n    </div>\n    <div class="card" style="margin-bottom:20px">\n      <h3 style="font-size:15px;margin-bottom:12px;color:var(--blue)">文件附件</h3>\n      <p style="font-size:12px;color:var(--text3);margin-bottom:16px">上传 Excel(.xlsx) 或 Word(.docx) 格式的实验数据文件。AI将自动解析内容。</p>\n      <div class="file-upload" id="fileDrop">\n        <div class="fu-icon">📤</div>\n        <div class="fu-text">点击选择文件或拖拽到此处</div>\n        <div class="fu-hint" id="fileHint">支持 .xlsx / .docx 格式</div>\n        <input type="file" id="fileInput" accept=".xlsx,.docx" onchange="handleFile(event)">\n      </div>\n    </div>\n    <button class="submit-btn" id="submitBtn" onclick="submitAll()">提交数据</button>\n    <div id="submitResult" style="margin-top:12px;text-align:center;font-size:13px"></div>\n  </div>\n</div><div class="footer">
+<!-- Page 5: Data Submission -->\n<div class="page" id="page5">\n  <div style="max-width:800px;margin:0 auto">\n    <div class="section">\n      <h2><span class="dot"></span>数据提交</h2>\n      <p style="color:var(--text2);font-size:14px;margin-bottom:16px">提交项目实验数据，管理员审核通过后AI将自动分析并纳入数据库。</p>\n      <p style="color:var(--amber);font-size:12px;margin-bottom:24px" id="submitNote">需要本地服务器 (localhost:3000)，在线版无法提交。</p>\n    </div>\n    <div class="card" style="margin-bottom:16px">\n      <h3 style="font-size:15px;margin-bottom:16px;color:var(--cyan)">基本信息</h3>\n      <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">项目名称 *</label><input class="sf" id="fProject" placeholder="如：黄山源点缠绕膜"></div>\n      <div style="margin-top:12px"><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">提交人</label><input class="sf" id="fSubmitter" placeholder="您的姓名"></div>\n      <div style="margin-top:12px"><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">备注说明</label><textarea class="sf" id="fNote" rows="2" style="resize:vertical" placeholder="简要描述提交的数据内容"></textarea></div>\n    </div>\n    <div class="card" style="margin-bottom:20px">\n      <h3 style="font-size:15px;margin-bottom:12px;color:var(--blue)">文件附件</h3>\n      <p style="font-size:12px;color:var(--text3);margin-bottom:16px">上传 Excel(.xlsx) 或 Word(.docx) 格式的实验数据文件。AI将自动解析内容。</p>\n      <div class="file-upload" id="fileDrop">\n        <div class="fu-icon">📤</div>\n        <div class="fu-text">点击选择文件或拖拽到此处</div>\n        <div class="fu-hint" id="fileHint">支持 .xlsx / .docx 格式</div>\n        <input type="file" id="fileInput" accept=".xlsx,.docx" onchange="handleFile(event)">\n      </div>\n    </div>\n    <button class="submit-btn" id="submitBtn" onclick="submitAll()">提交数据</button>\n    <div id="submitResult" style="margin-top:12px;text-align:center;font-size:13px"></div>\n  </div>\n</div><div class="scan-line"></div>
+<div class="ai-float" onclick="switchPage(4)" title="AI">
+  <span class="ai-tip">AI??</span>
+  ?
+</div>
+<div class="footer">
   <p>配方研发分析平台 · 数据来源：江苏天源试验设备有限公司数据库 · 设备支持：${esc(CI.name)} · AI：DeepSeek</p>
 </div>
 
@@ -348,17 +363,17 @@ tr:hover td{background:#eff6ff;color:var(--text)}
   var w,h,particles=[];
   function resize(){w=c.width=window.innerWidth;h=c.height=window.innerHeight}
   resize();window.addEventListener('resize',resize);
-  for(var i=0;i<80;i++)particles.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5,r:Math.random()*1.5+.5});
+  for(var i=0;i<60;i++)particles.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.6,vy:(Math.random()-.5)*.6,r:Math.random()*2+1});
   function draw(){
     ctx.clearRect(0,0,w,h);
     particles.forEach(function(p,i){
       p.x+=p.vx;p.y+=p.vy;
       if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;
       ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle='rgba(34,211,238,'+(.15+p.r*.1)+')';ctx.fill();
+      ctx.fillStyle='rgba(37,99,235,'+(.08+p.r*.04)+')';ctx.fill();
       for(var j=i+1;j<particles.length;j++){
         var q=particles[j],dx=p.x-q.x,dy=p.y-q.y,dist=Math.sqrt(dx*dx+dy*dy);
-        if(dist<120){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle='rgba(34,211,238,'+(.04*(1-dist/120))+')';ctx.lineWidth=.5;ctx.stroke()}
+        if(dist<120){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle='rgba(37,99,235,'+(.025*(1-dist/150))+')';ctx.lineWidth=.5;ctx.stroke()}
       }
     });
     requestAnimationFrame(draw);
