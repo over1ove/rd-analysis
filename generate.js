@@ -397,78 +397,7 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
 </div>
 
 
-<!-- Page 5: Data Submission -->
-<div class="page" id="page5">
-  <div style="max-width:800px;margin:0 auto">
-    <div class="section">
-      <h2><span class="dot"></span>数据提交</h2>
-      <p style="color:var(--text2);font-size:14px;margin-bottom:8px">提交新的实验配方数据，管理员审核后将纳入数据库。</p>
-      <p style="color:var(--amber);font-size:12px;margin-bottom:8px" id="submitNote">⚠️ 需要本地服务器 (localhost:3000)，在线版无法提交。</p>
-    </div>
-
-    <div class="tab-btns">
-      <div class="tab-btn active" onclick="switchSubmitTab('form')" id="tabFormBtn">📝 手动填写</div>
-      <div class="tab-btn" onclick="switchSubmitTab('file')" id="tabFileBtn">📁 上传Excel文件</div>
-    </div>
-
-    <!-- Manual Form -->
-    <div id="submitFormTab">
-      <div class="card" style="margin-bottom:16px">
-        <h3 style="font-size:15px;margin-bottom:16px;color:var(--cyan)">📋 基本信息</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">项目名称 *</label><input class="sf" id="fProject" placeholder="如：黄山源点缠绕膜"></div>
-          <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">配方编号 *</label><input class="sf" id="fCode" placeholder="如：2607-F5"></div>
-        </div>
-        <div style="margin-top:12px"><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">配方名称 *</label><input class="sf" id="fName" placeholder="如：POE+成核剂复配"></div>
-        <div style="margin-top:12px"><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">配料方案 *</label><input class="sf" id="fFormula" placeholder="如：PE原料+POE6202(4%)+成核剂CYD(0.15%)"></div>
-        <div style="margin-top:12px"><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">实验目的</label><input class="sf" id="fPurpose" placeholder="如：POE与成核剂协同增韧效果"></div>
-      </div>
-      <div class="card" style="margin-bottom:16px">
-        <h3 style="font-size:15px;margin-bottom:16px;color:var(--blue)">📊 测试数据（可选）</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
-          <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">断裂伸长率 (%)</label><input class="sf" id="fElong" type="number" step="0.01" placeholder="如：498.03"></div>
-          <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">拉伸强度 (MPa)</label><input class="sf" id="fStrength" type="number" step="0.01" placeholder="如：18.40"></div>
-          <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">破坏载荷 (N)</label><input class="sf" id="fLoad" type="number" step="0.01" placeholder="如：707.70"></div>
-        </div>
-      </div>
-      <div class="card" style="margin-bottom:20px">
-        <h3 style="font-size:15px;margin-bottom:16px;color:var(--green)">👤 提交人信息</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">提交人姓名</label><input class="sf" id="fSubmitter" placeholder="您的姓名"></div>
-          <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">备注</label><input class="sf" id="fNote" placeholder="补充说明"></div>
-        </div>
-      </div>
-      <button class="submit-btn" id="submitBtn" onclick="submitData()">提交数据</button>
-      <div id="submitResult" style="margin-top:12px;text-align:center;font-size:13px"></div>
-    </div>
-
-    <!-- File Upload Tab -->
-    <div id="submitFileTab" style="display:none">
-      <div class="card" style="margin-bottom:16px">
-        <h3 style="font-size:15px;margin-bottom:12px;color:var(--cyan)">📁 上传Excel文件</h3>
-        <p style="font-size:12px;color:var(--text3);margin-bottom:16px">支持 .xlsx 格式。上传后AI将自动分析文件内容，管理员审核后纳入数据库。</p>
-        <div class="file-upload" id="fileDrop">
-          <div class="fu-icon">📤</div>
-          <div class="fu-text">点击选择文件或拖拽到此处</div>
-          <div class="fu-hint" id="fileHint">支持 .xlsx 格式</div>
-          <input type="file" id="fileInput" accept=".xlsx" onchange="handleFile(event)">
-        </div>
-        <div class="upload-result" id="uploadResult">
-          <div id="uploadContent"></div>
-        </div>
-      </div>
-      <div class="card" style="margin-bottom:16px">
-        <h3 style="font-size:15px;margin-bottom:16px;color:var(--green)">👤 提交人信息</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">提交人姓名</label><input class="sf" id="fUploadSubmitter" placeholder="您的姓名"></div>
-          <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">备注</label><input class="sf" id="fUploadNote" placeholder="补充说明"></div>
-        </div>
-      </div>
-      <button class="submit-btn" id="uploadBtn" onclick="uploadFile()" disabled>上传并分析</button>
-      <div id="uploadResult2" style="margin-top:12px;text-align:center;font-size:13px"></div>
-    </div>
-  </div>
-</div><div class="footer">
+<!-- Page 5: Data Submission -->\n<div class="page" id="page5">\n  <div style="max-width:800px;margin:0 auto">\n    <div class="section">\n      <h2><span class="dot"></span>数据提交</h2>\n      <p style="color:var(--text2);font-size:14px;margin-bottom:16px">提交项目实验数据，管理员审核通过后AI将自动分析并纳入数据库。</p>\n      <p style="color:var(--amber);font-size:12px;margin-bottom:24px" id="submitNote">需要本地服务器 (localhost:3000)，在线版无法提交。</p>\n    </div>\n    <div class="card" style="margin-bottom:16px">\n      <h3 style="font-size:15px;margin-bottom:16px;color:var(--cyan)">基本信息</h3>\n      <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">项目名称 *</label><input class="sf" id="fProject" placeholder="如：黄山源点缠绕膜"></div>\n      <div style="margin-top:12px"><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">提交人</label><input class="sf" id="fSubmitter" placeholder="您的姓名"></div>\n      <div style="margin-top:12px"><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">备注说明</label><textarea class="sf" id="fNote" rows="2" style="resize:vertical" placeholder="简要描述提交的数据内容"></textarea></div>\n    </div>\n    <div class="card" style="margin-bottom:20px">\n      <h3 style="font-size:15px;margin-bottom:12px;color:var(--blue)">文件附件</h3>\n      <p style="font-size:12px;color:var(--text3);margin-bottom:16px">上传 Excel(.xlsx) 或 Word(.docx) 格式的实验数据文件。AI将自动解析内容。</p>\n      <div class="file-upload" id="fileDrop">\n        <div class="fu-icon">📤</div>\n        <div class="fu-text">点击选择文件或拖拽到此处</div>\n        <div class="fu-hint" id="fileHint">支持 .xlsx / .docx 格式</div>\n        <input type="file" id="fileInput" accept=".xlsx,.docx" onchange="handleFile(event)">\n      </div>\n    </div>\n    <button class="submit-btn" id="submitBtn" onclick="submitAll()">提交数据</button>\n    <div id="submitResult" style="margin-top:12px;text-align:center;font-size:13px"></div>\n  </div>\n</div><div class="footer">
   <p>配方研发分析平台 · 数据来源：江苏天源试验设备有限公司数据库 · 设备支持：${esc(CI.name)} · AI：DeepSeek</p>
 </div>
 
