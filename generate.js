@@ -190,7 +190,12 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
 /* Grid helper */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 @media(max-width:768px){.g2{grid-template-columns:1fr}}
-</style>
+.sf{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-size:13px;outline:none;transition:border-color .2s;font-family:inherit}
+.sf:focus{border-color:var(--cyan)}
+.submit-btn{display:block;width:100%;padding:14px;background:linear-gradient(135deg,var(--cyan),var(--blue));border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:all .3s}
+.submit-btn:hover{opacity:.9;transform:translateY(-1px)}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed}
+</style></style>
 </head>
 <body>
 <canvas class="bg-canvas" id="bgCanvas"></canvas>
@@ -204,6 +209,7 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
     <button class="nav-link" onclick="switchPage(2)">相关项目</button>
     <button class="nav-link" onclick="switchPage(3)">材料</button>
     <button class="nav-link" onclick="switchPage(4)">AI预测</button>
+    <button class="nav-link" onclick="switchPage(5)">数据提交</button>
   </div>
 </nav>
 
@@ -390,6 +396,48 @@ tr:hover td{background:rgba(56,189,248,.04);color:var(--text)}
   </div>
 </div>
 
+
+<!-- Page 5: Data Submission -->
+<div class="page" id="page5">
+  <div style="max-width:800px;margin:0 auto">
+    <div class="section">
+      <h2><span class="dot"></span>数据提交</h2>
+      <p style="color:var(--text2);font-size:14px;margin-bottom:8px">提交新的实验配方数据，管理员审核后将纳入数据库。</p>
+      <p style="color:var(--amber);font-size:12px;margin-bottom:24px" id="submitNote">⚠️ 数据提交功能需要本地服务器支持 (localhost:3000)。在线预览版无法提交。</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <h3 style="font-size:15px;margin-bottom:16px;color:var(--cyan)">📋 基本信息</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">项目名称 *</label><input class="sf" id="fProject" placeholder="如：黄山源点缠绕膜"></div>
+        <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">配方编号 *</label><input class="sf" id="fCode" placeholder="如：2607-F5"></div>
+      </div>
+      <div style="margin-top:12px"><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">配方名称 *</label><input class="sf" id="fName" placeholder="如：POE+成核剂复配"></div>
+      <div style="margin-top:12px"><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">配料方案 *</label><input class="sf" id="fFormula" placeholder="如：PE原料+POE6202(4%)+成核剂CYD(0.15%)"></div>
+      <div style="margin-top:12px"><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">实验目的</label><input class="sf" id="fPurpose" placeholder="如：POE与成核剂协同增韧效果"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <h3 style="font-size:15px;margin-bottom:16px;color:var(--blue)">📊 测试数据（可选）</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+        <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">断裂伸长率 (%)</label><input class="sf" id="fElong" type="number" step="0.01" placeholder="如：498.03"></div>
+        <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">拉伸强度 (MPa)</label><input class="sf" id="fStrength" type="number" step="0.01" placeholder="如：18.40"></div>
+        <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">破坏载荷 (N)</label><input class="sf" id="fLoad" type="number" step="0.01" placeholder="如：707.70"></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <h3 style="font-size:15px;margin-bottom:16px;color:var(--green)">👤 提交人信息</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">提交人姓名</label><input class="sf" id="fSubmitter" placeholder="您的姓名"></div>
+        <div><label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px">备注</label><input class="sf" id="fNote" placeholder="补充说明"></div>
+      </div>
+    </div>
+
+    <button class="submit-btn" id="submitBtn" onclick="submitData()">提交数据</button>
+    <div id="submitResult" style="margin-top:12px;text-align:center;font-size:13px"></div>
+  </div>
+</div>
 <div class="footer">
   <p>配方研发分析平台 · 数据来源：江苏天源试验设备有限公司数据库 · 设备支持：${esc(CI.name)} · AI：DeepSeek</p>
 </div>
@@ -463,6 +511,36 @@ function initCharts(){
   new Chart(document.getElementById('chartScatter'),{type:'scatter',data:{datasets:scatterData},options:{responsive:true,maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:function(ctx){return ctx.raw.label+': '+ctx.raw.y.toFixed(1)+'%, '+ctx.raw.x.toFixed(2)+'MPa'}}}},scales:{x:{title:{display:true,text:'强度 (MPa)',color:'#94a3b8'},min:12,max:25},y:{title:{display:true,text:'伸长率 (%)',color:'#94a3b8'},min:440,max:510}}}});
 }
 
+// Data Submission
+function submitData(){
+  var btn=document.getElementById("submitBtn"),result=document.getElementById("submitResult");
+  var code=document.getElementById("fCode").value.trim(),name=document.getElementById("fName").value.trim();
+  if(!code||!name){result.innerHTML='<span style="color:#f87171">请填写配方编号和配方名称</span>';return}
+  btn.disabled=true;btn.textContent="提交中...";
+  var data={
+    项目名称:document.getElementById("fProject").value.trim(),
+    配方编号:code,配方名称:name,
+    配料方案:document.getElementById("fFormula").value.trim(),
+    实验目的:document.getElementById("fPurpose").value.trim(),
+    断裂伸长率:document.getElementById("fElong").value,
+    拉伸强度:document.getElementById("fStrength").value,
+    破坏载荷:document.getElementById("fLoad").value,
+    提交人:document.getElementById("fSubmitter").value.trim(),
+    备注:document.getElementById("fNote").value.trim()
+  };
+  fetch("/api/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)})
+    .then(function(r){return r.json()})
+    .then(function(d){
+      if(d.success){result.innerHTML='<span style="color:var(--green)">✅ '+d.message+'</span>';
+        ["fCode","fName","fFormula","fPurpose","fElong","fStrength","fLoad","fNote"].forEach(function(id){document.getElementById(id).value=""})}
+      else{result.innerHTML='<span style="color:#f87171">❌ '+(d.error||"提交失败")+'</span>'}
+      btn.disabled=false;btn.textContent="提交数据";
+    })
+    .catch(function(e){
+      result.innerHTML='<span style="color:#f87171">❌ 无法连接服务器，请确认已启动本地服务 (node server.js)</span>';
+      btn.disabled=false;btn.textContent="提交数据";
+    });
+}
 // AI Chat
 var aiLoading=false;
 function quickAsk(q){document.getElementById('aiInput').value=q;askAI()}
